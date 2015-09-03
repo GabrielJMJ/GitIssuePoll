@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
     <script>
+    window.onload = function () {
         Array.prototype.has = function (value) {
             for (var k = 0; k < this.length; k++) {
                 if (this[k] == value) {
@@ -24,24 +25,32 @@
         
         var ignore = getParameterByName('ignore').split(',');
         var issue = getParameterByName('issue');
+        var votes = [];
     
         $.ajax({
            url: 'https://api.github.com/repos/' + issue + '/comments',
            dataType: 'json',
+           async: false,
            success: function (content) {
                for (var k = 0; k < content.length; k++) {
                    if (!ignore.has(content[k].id)) {
-                       var div = $('#votes #votes-for-' + parseInt(content[k].body));
-                       console.log(parseInt(content[k].body));
-                       if (div.length) {
-                           $('#votes #votes-for-' + parseInt(content[k].body) + ' .number').text(parseInt($('#votes #votes-for-' + parseInt(content[k].body) + ' .number').text()) + 1);
+                       
+                       if (!votes.has(content[k].body)) {
+                           votes[content[k].body] = 1;
                        } else {
-                           $('#votes').append('<div class="votes-for" id="votes-for-' + parseInt(content[k].body) + '">Votos para <b>#' + content[k].body + '</b>: <span class="number">1</div></span>');
+                           votes[content[k].body]++;
                        }
                    }
                }
            }
         });
+
+        for (var k in votes) {
+            if (votes.hasOwnProperty(k)) {
+                $('#votes').append('<div class="votes-for">Votos para <b>#' + k + '</b>: <span class="number">' + votes[k] + '</span></div>');
+            }
+        }
+    };
     </script>
     
     <style>
