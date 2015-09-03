@@ -18,6 +18,16 @@
             return false;
         }
         
+        Array.prototype.hasValue = function (value) {
+            for (var k = 0; k < this.length; k++) {
+                if (this[k] == value) {
+                   return true;
+                }
+            }
+            
+            return false;
+        }
+        
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -35,8 +45,7 @@
            async: false,
            success: function (content) {
                for (var k = 0; k < content.length; k++) {
-                   if (!ignore.has(content[k].id)) {
-                       
+                   if (!ignore.hasValue(content[k].id)) {
                        if (!votes.has(content[k].body)) {
                            votes[content[k].body] = 1;
                        } else {
