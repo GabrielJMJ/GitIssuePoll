@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script>
+        Array.prototype.has = function (value) {
+            for (var k = 0; k < this.length; k++) {
+                if (this[k] == value) {
+                   return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        var ignore = getParameterByName('ignore').split(',');
+    
+        $.ajax({
+           url: 'https://api.github.com/repos/Webschool-io/be-mean-instagram/issues/1/comments',
+           dataType: 'json',
+           success: function (content) {
+               for (var k = 0; k < content.length; k++) {
+                   if (!ignore.has(content[k].id)) {
+                       var div = $('#votes #votes-for-' + parseInt(content[k].body));
+                       if (div.length) {
+                           $('#votes #votes-for-' + parseInt(content[k].body) + ' .number').text(parseInt($('#votes #votes-for-' + parseInt(content[k].body) + ' #number')) + 1);
+                       } else {
+                           $('#votes').append('<div class="votes-for" id="votes-for-' + content[k].body + '">Votos para <b>#' + content[k].body + '</b>: <span class="number">1</div></span>');
+                       }
+                   }
+               }
+           }
+        });
+    </script>
+    
+    <style>
+        body {
+            font-family: monospace;
+        }
+    
+        div.votes-for {
+            background: #e8e8e8;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+    </head>
+    <body>
+        <article id="votes"></article>
+    </body>
+</html>
