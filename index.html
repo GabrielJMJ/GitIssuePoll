@@ -38,6 +38,7 @@
         var ignore = getParameterByName('ignore').split(',');
         var issue = getParameterByName('issue');
         var votes = [];
+        var validVotes = getParameterByName('valid_votes').split(',');
     
         $.ajax({
            url: 'https://api.github.com/repos/' + issue + '/comments',
@@ -45,7 +46,7 @@
            async: false,
            success: function (content) {
                for (var k = 0; k < content.length; k++) {
-                   if (!ignore.hasValue(content[k].id)) {
+                   if (!ignore.hasValue(content[k].id) && validVotes.hasValue(content[k].body)) {
                        if (!votes.has(content[k].body)) {
                            votes[content[k].body] = 1;
                        } else {
