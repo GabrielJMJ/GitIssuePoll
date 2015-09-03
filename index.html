@@ -32,10 +32,11 @@
                for (var k = 0; k < content.length; k++) {
                    if (!ignore.has(content[k].id)) {
                        var div = $('#votes #votes-for-' + parseInt(content[k].body));
+                       console.log(parseInt(content[k].body));
                        if (div.length) {
-                           $('#votes #votes-for-' + parseInt(content[k].body) + ' .number').text(parseInt($('#votes #votes-for-' + parseInt(content[k].body) + ' #number')) + 1);
+                           $('#votes #votes-for-' + parseInt(content[k].body) + ' .number').text(parseInt($('#votes #votes-for-' + parseInt(content[k].body) + ' .number').text()) + 1);
                        } else {
-                           $('#votes').append('<div class="votes-for" id="votes-for-' + content[k].body + '">Votos para <b>#' + content[k].body + '</b>: <span class="number">1</div></span>');
+                           $('#votes').append('<div class="votes-for" id="votes-for-' + parseInt(content[k].body) + '">Votos para <b>#' + content[k].body + '</b>: <span class="number">1</div></span>');
                        }
                    }
                }
