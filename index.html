@@ -7,9 +7,11 @@
     <script>
     window.onload = function () {
         Array.prototype.has = function (value) {
-            for (var k = 0; k < this.length; k++) {
-                if (this[k] == value) {
-                   return true;
+            for (var k in votes) {
+                if (votes.hasOwnProperty(k)) {
+                     if (k == value) {
+                         return true;
+                     }
                 }
             }
             
