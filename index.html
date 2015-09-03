@@ -23,9 +23,10 @@
         }
         
         var ignore = getParameterByName('ignore').split(',');
+        var issue = getParameterByName('issue');
     
         $.ajax({
-           url: 'https://api.github.com/repos/Webschool-io/be-mean-instagram/issues/1/comments',
+           url: 'https://api.github.com/repos/' + issue + '/comments',
            dataType: 'json',
            success: function (content) {
                for (var k = 0; k < content.length; k++) {
