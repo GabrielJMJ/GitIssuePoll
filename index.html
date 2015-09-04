@@ -32,21 +32,21 @@
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
                 results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
         
         var ignore = getParameterByName('ignore').split(',');
         var issue = getParameterByName('issue');
         var votes = [];
-        var validVotes = getParameterByName('valid_votes').split(',');
-    
+        var validVotes = getParameterByName('valid_votes') == '' ? [] : getParameterByName('valid_votes').split(',');
+
         $.ajax({
            url: 'https://api.github.com/repos/' + issue + '/comments',
            dataType: 'json',
            async: false,
            success: function (content) {
                for (var k = 0; k < content.length; k++) {
-                   if (!ignore.hasValue(content[k].id) && validVotes.hasValue(content[k].body)) {
+                   if (!ignore.hasValue(content[k].id) && (validVotes.hasValue(content[k].body) || !validVotes.length)) {
                        if (!votes.has(content[k].body)) {
                            votes[content[k].body] = 1;
                        } else {
