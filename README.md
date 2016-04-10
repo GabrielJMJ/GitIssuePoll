@@ -9,4 +9,6 @@ Create simple polls for GitHub issues.
 * ```ignore``` (optional): Comments IDs that must be ignored
 
 ### Example
-```http://gabrieljmj.github.io/GitIssuePoll/?ignore={:comment_id1,...}&issue={:user/:repo/issues/:id}```
+```
+http://gabrieljmj.github.io/GitIssuePoll/?ignore={:comment_id1,...}&issue={:user/:repo/issues/:id}
+```
